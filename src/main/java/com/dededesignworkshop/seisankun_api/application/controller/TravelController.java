@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/get_travel_info")
 public class TravelController {
     @NotNull
     private final TravelService travelService;
 
+    @RequestMapping(path = "/v1/get_travel_info")
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Travel findById(@PathVariable("id") Integer id) {

@@ -3,25 +3,19 @@ package com.dededesignworkshop.seisankun_api.domain.object;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
-public class Travel {
+public class User {
 
-//    private List<Travel> travelListByUser;
+    private Integer uid;
 
-    private Integer id;
+    private String iconImagePath;
 
     private String name;
 
-    private String secretWord;
+    private Integer gender;
 
-    private String travelStart;
-
-    private String travelEnd;
-
-    private Integer privateFlag;
+    private String profile;
 
     private Integer createdBy;
 
@@ -36,5 +30,4 @@ public class Travel {
     private String deletedAt;
 
     private Integer deleteFlag;
-
 }

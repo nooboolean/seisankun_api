@@ -1,4 +1,4 @@
-package com.dededesignworkshop.seisankun_api.infrastructure.repository;
+package com.dededesignworkshop.seisankun_api.domain.repository;
 
 import com.dededesignworkshop.seisankun_api.domain.object.Travel;
 
