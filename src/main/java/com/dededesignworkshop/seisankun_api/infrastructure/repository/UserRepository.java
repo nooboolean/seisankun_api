@@ -1,4 +1,4 @@
-package com.dededesignworkshop.seisankun_api.domain.repository;
+package com.dededesignworkshop.seisankun_api.infrastructure.repository;
 
 import com.dededesignworkshop.seisankun_api.domain.object.User;
 

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,10 +17,17 @@ public class TravelController {
     @NotNull
     private final TravelService travelService;
 
-    @RequestMapping(path = "/v1/get_travel_info")
-    @GetMapping("{id}")
+    @RequestMapping(value = "/v1/travel/list/{user_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Travel findById(@PathVariable("id") Integer id) {
-        return this.travelService.findById(id).orElseThrow(RuntimeException::new);
+    @ResponseBody
+    public Stream<Travel> findByUserId(@PathVariable("user_id") Integer user_id){
+        return this.travelService.findByUserId(user_id);
+    }
+
+    @RequestMapping(value = "/v1/travel/info/{travel_id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Optional<Travel> findByTravelId(@PathVariable("travel_id") Integer travel_id){
+        return this.travelService.findByTravelId(travel_id);
     }
 }

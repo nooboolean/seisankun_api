@@ -3,13 +3,9 @@ package com.dededesignworkshop.seisankun_api.domain.object;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
 public class Travel {
-
-//    private List<Travel> travelListByUser;
 
     private Integer id;
 

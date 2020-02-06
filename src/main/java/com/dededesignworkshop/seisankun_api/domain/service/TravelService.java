@@ -1,16 +1,14 @@
 package com.dededesignworkshop.seisankun_api.domain.service;
 
 import com.dededesignworkshop.seisankun_api.domain.object.Travel;
-import com.dededesignworkshop.seisankun_api.domain.repository.TravelListByUserRepository;
-import com.dededesignworkshop.seisankun_api.domain.repository.UserRepository;
-import com.dededesignworkshop.seisankun_api.domain.repository.TravelRepository;
+import com.dededesignworkshop.seisankun_api.infrastructure.entity.TravelEntity;
+import com.dededesignworkshop.seisankun_api.infrastructure.repository.TravelRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +16,11 @@ public class TravelService {
     @NonNull
     private final TravelRepository travelRepository;
 
-    @NotNull
-    private final TravelListByUserRepository travelListByUserRepository;
-
-    public Optional<Travel> findById(Integer id){
-        return this.travelRepository.findById(id);
+    public Stream<Travel> findByUserId(Integer user_id) {
+        return this.travelRepository.findByUserId(user_id).stream().map(TravelEntity::toDomainTravelList);
     }
 
-    public List<Travel> findByUserId(Integer user_id){
-        List<Travel> TravelListByUser = this.travelListByUserRepository.findByUserId(user_id);
-        System.out.println(TravelListByUser);
-        return TravelListByUser;
+    public Optional<Travel> findByTravelId(Integer travel_id) {
+        return this.travelRepository.findByTravelId(travel_id).map(TravelEntity::toDomainTravelList);
     }
-
 }
