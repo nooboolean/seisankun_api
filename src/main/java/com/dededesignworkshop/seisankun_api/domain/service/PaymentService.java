@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -17,5 +18,9 @@ public class PaymentService {
 
     public Stream<Payment> findByTravelId(Integer travel_id) {
         return this.paymentRepository.findByTravelId(travel_id).stream().map(PaymentEntity::toDomainPayment);
+    }
+
+    public Optional<Payment> findByPaymentId(Integer payment_id) {
+        return this.paymentRepository.findByPaymentId(payment_id).map(PaymentEntity::toDomainPayment);
     }
 }
