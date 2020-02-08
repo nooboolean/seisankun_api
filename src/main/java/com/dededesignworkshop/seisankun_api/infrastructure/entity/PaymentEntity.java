@@ -1,6 +1,7 @@
 package com.dededesignworkshop.seisankun_api.infrastructure.entity;
 
-import com.dededesignworkshop.seisankun_api.domain.object.Travel;
+
+import com.dededesignworkshop.seisankun_api.domain.object.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,19 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TravelEntity {
+public class PaymentEntity {
 
     private Integer id;
 
-    private String secretWord;
+    private Integer travelId;
 
-    private String name;
+    private Integer payerId;
 
-    private String travelStart;
-
-    private String travelEnd;
-
-    private Integer privateFlag;
+    private Integer amount;
 
     private Integer createdBy;
 
@@ -38,18 +35,20 @@ public class TravelEntity {
 
     private Integer deleteFlag;
 
-    public Travel toDomainTravelList() {
-        return Travel.builder()
+    public Payment toDomainPayment() {
+        return Payment.builder()
                 .id(this.id)
-                .secretWord(this.secretWord)
-                .name(this.name)
-                .travelStart(this.travelStart)
-                .travelEnd(this.travelEnd)
-                .privateFlag(this.privateFlag)
-                .createdBy(this.createdBy)
+                .travelId(this.travelId)
+                .payerId(this.travelId)
+                .amount(this.amount)
                 .createdAt(this.createdAt)
-                .updatedBy(this.updatedBy)
+                .createdBy(this.createdBy)
                 .updatedAt(this.updatedAt)
+                .updatedBy(this.updatedBy)
+                .deletedAt(this.deletedAt)
+                .deletedBy(this.deletedBy)
+                .deleteFlag(this.deleteFlag)
                 .build();
     }
+
 }
