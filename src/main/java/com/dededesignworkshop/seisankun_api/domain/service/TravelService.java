@@ -44,4 +44,17 @@ public class TravelService {
         this.travelRepository.updateTravel(travel);
         return this.travelRepository.findByTravelId(travel.getId()).map(TravelEntity::toDomainTravelList);
     }
+
+    public void softDeleteTravel(Travel travel){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        String now_date = simpleDateFormat.format(calendar.getTime());
+        travel.setUpdatedAt(now_date);
+        travel.setDeletedAt(now_date);
+        this.travelRepository.softDeleteTravel(travel);
+    }
+
+    public void deleteTravel(Integer travelId){
+        this.travelRepository.deleteTravel(travelId);
+    }
 }
