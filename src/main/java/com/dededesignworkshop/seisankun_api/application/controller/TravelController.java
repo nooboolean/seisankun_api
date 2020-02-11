@@ -49,4 +49,16 @@ public class TravelController {
         Optional<Travel> updatedTravel = this.travelService.updateTravel(travel);
         return updatedTravel;
     }
+
+    @RequestMapping(value = "v1/travel/delete/{archive_flag}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer deleteTravel(@RequestBody Travel travel, @PathVariable("archive_flag") Integer archiveFlag){
+        if(archiveFlag == 1){
+            this.travelService.softDeleteTravel(travel);
+            return travel.getId();
+        }
+        this.travelService.deleteTravel(travel.getId());
+        return travel.getId();
+    }
 }

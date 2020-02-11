@@ -22,4 +22,11 @@ public interface TravelRepository {
 
     void updateTravel(Travel travel);
 
+    @Update("UPDATE travels SET updated_by = #{updatedBy}, updated_at = #{updatedAt}, deleted_by = #{updatedBy}, deleted_at = #{deletedAt}," +
+            "delete_flag = 1 WHERE id = #{id}")
+    void softDeleteTravel(Travel travel);
+
+    @Delete("DELETE FROM travels WHERE id = #{travelId}")
+    void deleteTravel(@Param("travelId") Integer travelId);
+
 }
