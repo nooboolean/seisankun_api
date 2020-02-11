@@ -49,4 +49,12 @@ public class PaymentController {
         return updatedPayment;
     }
 
+    @RequestMapping(value = "v1/payment/data/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer deleteTravel(@RequestBody Payment payment, BindingResult result){
+        this.paymentService.softDeletePayment(payment);
+        return payment.getId();
+    }
+
 }
