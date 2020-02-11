@@ -19,4 +19,6 @@ public interface PaymentRepository {
             "VALUES (#{travelId}, #{payerId}, #{amount}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createPayment(Payment payment);
+
+    void updatePayment(Payment payment);
 }

@@ -3,5 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dededesignworkshop.seisankun_api.infrastructure.repository.PaymentRepository">
-
+    <update id="updatePayment">
+        UPDATE
+            payments
+        SET
+            <if test="travelId != null">
+                travel_id = #{travelId},
+            </if>
+            <if test="payerId != null">
+                payer_id = #{payerId},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            updated_by = #{updatedBy},
+            updated_at = #{updatedAt}
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

@@ -41,4 +41,12 @@ public class PaymentController {
         return payment;
     }
 
+    @RequestMapping(value = "v1/payment/data/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Optional<Payment> updatePayment(@RequestBody Payment payment, BindingResult result){
+        Optional<Payment> updatedPayment = this.paymentService.updatePayment(payment);
+        return updatedPayment;
+    }
+
 }
