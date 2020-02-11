@@ -1,11 +1,19 @@
 package com.dededesignworkshop.seisankun_api.domain.object;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 @Data
 @Builder
-public class Travel {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Travel implements Serializable {
 
     private Integer id;
 

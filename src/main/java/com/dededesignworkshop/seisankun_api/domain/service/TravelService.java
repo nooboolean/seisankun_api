@@ -7,6 +7,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -22,5 +26,14 @@ public class TravelService {
 
     public Optional<Travel> findByTravelId(Integer travel_id) {
         return this.travelRepository.findByTravelId(travel_id).map(TravelEntity::toDomainTravelList);
+    }
+
+    public void createTravel(Travel travel){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss.SSS");
+        String now_date = simpleDateFormat.format(calendar.getTime());
+        travel.setCreatedAt(now_date);
+        travel.setUpdatedAt(now_date);
+        this.travelRepository.createTravel(travel);
     }
 }
