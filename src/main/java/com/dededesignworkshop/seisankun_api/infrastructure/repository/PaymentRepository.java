@@ -21,4 +21,8 @@ public interface PaymentRepository {
     void createPayment(Payment payment);
 
     void updatePayment(Payment payment);
+
+    @Update("UPDATE payments SET updated_by = #{updatedBy}, updated_at = #{updatedAt}, deleted_by = #{updatedBy}, deleted_at = #{deletedAt}," +
+            "delete_flag = 1 WHERE id = #{id}")
+    void softDeletePayment(Payment payment);
 }

@@ -43,4 +43,13 @@ public class PaymentService {
         this.paymentRepository.updatePayment(payment);
         return this.paymentRepository.findByPaymentId(payment.getId()).map(PaymentEntity::toDomainPayment);
     }
+
+    public void softDeletePayment(Payment payment){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        String now_date = simpleDateFormat.format(calendar.getTime());
+        payment.setUpdatedAt(now_date);
+        payment.setDeletedAt(now_date);
+        this.paymentRepository.softDeletePayment(payment);
+    }
 }
