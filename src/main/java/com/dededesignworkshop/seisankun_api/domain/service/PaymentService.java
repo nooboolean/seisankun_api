@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -22,5 +24,14 @@ public class PaymentService {
 
     public Optional<Payment> findByPaymentId(Integer payment_id) {
         return this.paymentRepository.findByPaymentId(payment_id).map(PaymentEntity::toDomainPayment);
+    }
+
+    public void createPayment(Payment payment){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss.SSS");
+        String now_date = simpleDateFormat.format(calendar.getTime());
+        payment.setCreatedAt(now_date);
+        payment.setUpdatedAt(now_date);
+        this.paymentRepository.createPayment(payment);
     }
 }
