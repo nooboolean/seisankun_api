@@ -20,4 +20,6 @@ public interface TravelRepository {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createTravel(Travel travel);
 
+    void updateTravel(Travel travel);
+
 }

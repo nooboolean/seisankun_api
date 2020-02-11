@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -39,5 +40,13 @@ public class TravelController {
     public Travel createTravel(@RequestBody Travel travel, BindingResult result){
         this.travelService.createTravel(travel);
         return travel;
+    }
+
+    @RequestMapping(value = "v1/travel/info/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Optional<Travel> updateTravel(@RequestBody Travel travel, BindingResult result){
+        Optional<Travel> updatedTravel = this.travelService.updateTravel(travel);
+        return updatedTravel;
     }
 }
