@@ -17,4 +17,28 @@
         ORDER BY
             t.travel_start
     </select>
+    <update id="updateTravel">
+        UPDATE
+            travels
+        SET
+            <if test="secretWord != null">
+                secret_word = #{secretWord},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="travelStart != null">
+                travel_start = #{travelStart},
+            </if>
+            <if test="travelEnd != null">
+                travel_end = #{travelEnd},
+            </if>
+            <if test="privateFlag != null">
+                private_flag = #{privateFlag},
+            </if>
+            updated_by = #{updatedBy},
+            updated_at = #{updatedAt}
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

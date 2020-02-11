@@ -3,6 +3,7 @@ package com.dededesignworkshop.seisankun_api.domain.service;
 import com.dededesignworkshop.seisankun_api.domain.object.Travel;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.TravelEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.TravelRepository;
+import jdk.jfr.internal.Options;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,19 @@ public class TravelService {
 
     public void createTravel(Travel travel){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss.SSS");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         String now_date = simpleDateFormat.format(calendar.getTime());
         travel.setCreatedAt(now_date);
         travel.setUpdatedAt(now_date);
         this.travelRepository.createTravel(travel);
+    }
+
+    public Optional<Travel> updateTravel(Travel travel){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        String now_date = simpleDateFormat.format(calendar.getTime());
+        travel.setUpdatedAt(now_date);
+        this.travelRepository.updateTravel(travel);
+        return this.travelRepository.findByTravelId(travel.getId()).map(TravelEntity::toDomainTravelList);
     }
 }
