@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -27,6 +26,7 @@ public class TravelController {
         return this.travelService.findByUserId(user_id);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/v1/travel/info/{travel_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
