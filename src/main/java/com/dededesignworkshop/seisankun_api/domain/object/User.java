@@ -7,7 +7,9 @@ import lombok.Data;
 @Builder
 public class User {
 
-    private Integer uid;
+    private Integer id;
+
+    private String uid;
 
     private String iconImagePath;
 

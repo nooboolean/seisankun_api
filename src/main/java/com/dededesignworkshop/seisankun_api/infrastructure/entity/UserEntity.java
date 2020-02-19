@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserEntity {
 
-    private Integer uid;
+    private Integer id;
+
+    private String uid;
 
     private String iconImagePath;
 
@@ -38,6 +40,7 @@ public class UserEntity {
 
     public User toDomainUser() {
         return User.builder()
+                .id(this.id)
                 .uid(this.uid)
                 .iconImagePath(this.iconImagePath)
                 .name(this.name)

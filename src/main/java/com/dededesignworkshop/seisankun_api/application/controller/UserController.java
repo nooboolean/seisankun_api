@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,5 +24,13 @@ public class UserController {
     public User createUserInfo(@RequestBody User user, BindingResult result){
         this.userService.createUserInfo(user);
         return user;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/v1/user/info/{uid}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Optional<User> findByFirebaseUid(@PathVariable("uid") String uid){
+        return this.userService.findByUid(uid);
     }
 }
