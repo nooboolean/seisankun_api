@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -19,13 +18,11 @@ public class Travel implements Serializable {
 
     private String name;
 
-    private String secretWord;
+    private String hashId;
 
     private String travelStart;
 
     private String travelEnd;
-
-    private Integer privateFlag;
 
     private Integer createdBy;
 

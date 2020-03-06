@@ -9,14 +9,14 @@ import java.util.Optional;
 
 @Mapper
 public interface PaymentRepository {
-    @Select("SELECT * FROM payments WHERE travel_id = #{travel_id}")
+    @Select("SELECT * FROM payments WHERE travel_id = #{travel_id} AND (delete_flag iS NULL OR delete_flag = 0)")
     List<PaymentEntity> findByTravelId(@Param("travel_id") Integer travel_id);
 
     @Select("SELECT * FROM payments WHERE id = #{payment_id}")
     Optional<PaymentEntity> findByPaymentId(@Param("payment_id") Integer payment_id);
 
-    @Insert("INSERT INTO payments (travel_id, payer_id, amount, created_by, created_at, updated_by, updated_at)" +
-            "VALUES (#{travelId}, #{payerId}, #{amount}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
+    @Insert("INSERT INTO payments (travel_id, payer_id, title, amount, created_by, created_at, updated_by, updated_at)" +
+            "VALUES (#{travelId}, #{payerId}, #{title}, #{amount}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createPayment(Payment payment);
 

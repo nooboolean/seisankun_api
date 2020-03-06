@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -18,4 +19,9 @@ public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE uid = #{uid}")
     Optional<UserEntity> findByUid(String uid);
+
+    @Select("SELECT * FROM users WHERE id = #{user_id}")
+    Optional<UserEntity> findByUserId(Integer user_id);
+
+    List<UserEntity> findByTravelId(Integer travel_id);
 }

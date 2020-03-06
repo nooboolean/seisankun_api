@@ -9,7 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/info/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User createUserInfo(@RequestBody User user, BindingResult result){
+    public User createUserInfo(@RequestBody User user, BindingResult result) {
         this.userService.createUserInfo(user);
         return user;
     }
@@ -30,7 +32,15 @@ public class UserController {
     @RequestMapping(value = "/v1/user/info/{uid}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Optional<User> findByFirebaseUid(@PathVariable("uid") String uid){
+    public Optional<User> findByFirebaseUid(@PathVariable("uid") String uid) {
         return this.userService.findByUid(uid);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/v1/traveler/{travel_id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<User> findByTravelId(@PathVariable("travel_id") Integer travel_id) {
+        return this.userService.findByTravelId(travel_id);
     }
 }

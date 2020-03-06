@@ -1,14 +1,20 @@
 package com.dededesignworkshop.seisankun_api.domain.service;
 
 import com.dededesignworkshop.seisankun_api.domain.object.Payment;
+import com.dededesignworkshop.seisankun_api.domain.object.PaymentHistory;
+import com.dededesignworkshop.seisankun_api.domain.object.User;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.PaymentEntity;
+import com.dededesignworkshop.seisankun_api.infrastructure.entity.UserEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.PaymentRepository;
+import com.dededesignworkshop.seisankun_api.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -18,8 +24,20 @@ public class PaymentService {
     @NotNull
     private final PaymentRepository paymentRepository;
 
-    public Stream<Payment> findByTravelId(Integer travel_id) {
-        return this.paymentRepository.findByTravelId(travel_id).stream().map(PaymentEntity::toDomainPayment);
+    @NotNull
+    private final UserRepository userRepository;
+
+    public List<PaymentHistory> findByTravelId(Integer travel_id) {
+        Stream<Payment> payments = this.paymentRepository.findByTravelId(travel_id).stream().map(PaymentEntity::toDomainPayment);
+        List<PaymentHistory> paymentHistories = new ArrayList<PaymentHistory>();
+        payments.forEach(payment -> {
+            PaymentHistory paymentHistory = PaymentHistory.builder()
+                    .payment(payment)
+                    .user(this.userRepository.findByUserId(payment.getPayerId()).map(UserEntity::toDomainUser))
+                    .build();
+            paymentHistories.add(paymentHistory);
+        });
+        return paymentHistories;
     }
 
     public Optional<Payment> findByPaymentId(Integer payment_id) {
@@ -33,6 +51,7 @@ public class PaymentService {
         payment.setCreatedAt(now_date);
         payment.setUpdatedAt(now_date);
         this.paymentRepository.createPayment(payment);
+        this.addBorrowMoney(payment);
     }
 
     public Optional<Payment> updatePayment(Payment payment){
@@ -51,5 +70,9 @@ public class PaymentService {
         payment.setUpdatedAt(now_date);
         payment.setDeletedAt(now_date);
         this.paymentRepository.softDeletePayment(payment);
+    }
+
+    private void addBorrowMoney(Payment payment){
+        
     }
 }

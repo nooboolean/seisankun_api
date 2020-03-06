@@ -19,6 +19,8 @@ public class PaymentEntity {
 
     private Integer payerId;
 
+    private String title;
+
     private Integer amount;
 
     private Integer createdBy;
@@ -39,7 +41,8 @@ public class PaymentEntity {
         return Payment.builder()
                 .id(this.id)
                 .travelId(this.travelId)
-                .payerId(this.travelId)
+                .payerId(this.payerId)
+                .title(this.title)
                 .amount(this.amount)
                 .createdAt(this.createdAt)
                 .createdBy(this.createdBy)

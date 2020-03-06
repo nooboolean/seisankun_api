@@ -4,6 +4,8 @@ package com.dededesignworkshop.seisankun_api.domain.object;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class Payment {
@@ -14,7 +16,13 @@ public class Payment {
 
     private Integer payerId;
 
+    private String title;
+
     private Integer amount;
+
+    private Integer money;
+
+    private List<Integer> borrowers;
 
     private Integer createdBy;
 

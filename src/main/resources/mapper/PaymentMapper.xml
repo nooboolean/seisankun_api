@@ -13,6 +13,9 @@
             <if test="payerId != null">
                 payer_id = #{payerId},
             </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
             <if test="amount != null">
                 amount = #{amount},
             </if>

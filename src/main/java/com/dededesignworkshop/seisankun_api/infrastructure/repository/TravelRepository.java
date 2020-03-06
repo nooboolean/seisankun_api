@@ -15,8 +15,8 @@ public interface TravelRepository {
     @Select("SELECT * FROM travels WHERE id = #{travel_id}")
     Optional<TravelEntity> findByTravelId(@Param("travel_id") Integer travel_id);
 
-    @Insert("INSERT INTO travels (secret_word, name, travel_start, travel_end, private_flag, created_by, created_at, updated_by, updated_at)" +
-            "VALUES (#{secretWord}, #{name}, #{travelStart}, #{travelEnd}, #{privateFlag}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
+    @Insert("INSERT INTO travels (hash_id, name, travel_start, travel_end, created_by, created_at, updated_by, updated_at)" +
+            "VALUES (#{hashId}, #{name}, #{travelStart}, #{travelEnd}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createTravel(Travel travel);
 
@@ -28,5 +28,8 @@ public interface TravelRepository {
 
     @Delete("DELETE FROM travels WHERE id = #{travelId}")
     void deleteTravel(@Param("travelId") Integer travelId);
+
+    @Select("SELECT id FROM travels WHERE hash_id = #{hash_id}")
+    Integer getTravelId(String hash_id);
 
 }

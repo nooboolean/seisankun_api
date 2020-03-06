@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Calendar;
-import java.util.Date;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,15 +14,13 @@ public class TravelEntity {
 
     private Integer id;
 
-    private String secretWord;
+    private String hashId;
 
     private String name;
 
     private String travelStart;
 
     private String travelEnd;
-
-    private Integer privateFlag;
 
     private Integer createdBy;
 
@@ -44,11 +39,10 @@ public class TravelEntity {
     public Travel toDomainTravelList() {
         return Travel.builder()
                 .id(this.id)
-                .secretWord(this.secretWord)
+                .hashId(this.hashId)
                 .name(this.name)
                 .travelStart(this.travelStart)
                 .travelEnd(this.travelEnd)
-                .privateFlag(this.privateFlag)
                 .createdBy(this.createdBy)
                 .createdAt(this.createdAt)
                 .updatedBy(this.updatedBy)

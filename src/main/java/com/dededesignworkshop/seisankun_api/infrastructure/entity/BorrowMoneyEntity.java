@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BorrowMoney {
+public class BorrowMoneyEntity {
 
     private Integer id;
 
