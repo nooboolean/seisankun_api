@@ -20,8 +20,6 @@ public class Payment {
 
     private Integer amount;
 
-    private Integer money;
-
     private List<Integer> borrowers;
 
     private Integer createdBy;

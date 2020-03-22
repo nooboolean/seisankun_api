@@ -99,12 +99,13 @@ public class TravelService {
         userTravel.setUpdatedBy(userTravel.getCreatedBy());
         this.userTravelRepository.createUserTravel(userTravel);
 
-        List<User> users = this.userService.findByTravelId(userTravel.getTravelId());
-        this.addBorrowRelation(userTravel, users);
-        List<BorrowMoneyEntity> borrowMoneyList = this.createBorrowRelationList(userTravel, users);
-        borrowMoneyList.forEach(borrowMoneyEntity -> {
-            this.borrowMoneyRepository.createBorrowRelation(borrowMoneyEntity);
-        });
+        // TODO:不要処理のため　後ほど削除
+//        List<User> users = this.userService.findByTravelId(userTravel.getTravelId());
+//        this.addBorrowRelation(userTravel, users);
+//        List<BorrowMoneyEntity> borrowMoneyList = this.createBorrowRelationList(userTravel, users);
+//        borrowMoneyList.forEach(borrowMoneyEntity -> {
+//            this.borrowMoneyRepository.createBorrowRelation(borrowMoneyEntity);
+//        });
     }
 
     public void deleteUserTravel(UserTravel userTravel) {
@@ -121,40 +122,41 @@ public class TravelService {
         return this.travelRepository.getTravelId(hash_id);
     }
 
-    private void addBorrowRelation(UserTravel userTravel, List<User> users){
-        users.forEach(user -> {
-            if(user.getId().equals(userTravel.getUserId())) return;
-            BorrowMoneyEntity addBorrowMoney = new BorrowMoneyEntity();
-            addBorrowMoney = addBorrowMoney.builder()
-                    .travelId(userTravel.getTravelId())
-                    .borrowerId(user.getId())
-                    .lenderId(userTravel.getUserId())
-                    .money(0)
-                    .createdBy(userTravel.getCreatedBy())
-                    .createdAt(userTravel.getCreatedAt())
-                    .updatedBy(userTravel.getUpdatedBy())
-                    .updatedAt(userTravel.getUpdatedAt())
-                    .build();
-            this.borrowMoneyRepository.createBorrowRelation(addBorrowMoney);
-        });
-    }
-
-    private List<BorrowMoneyEntity> createBorrowRelationList(UserTravel userTravel , List<User> users){
-        List<BorrowMoneyEntity> borrowMoneyList = new ArrayList<>();
-        users.forEach(user -> {
-                BorrowMoneyEntity borrowMoney = new BorrowMoneyEntity();
-                borrowMoney = borrowMoney.builder()
-                        .travelId(userTravel.getTravelId())
-                        .borrowerId(userTravel.getUserId())
-                        .lenderId(user.getId())
-                        .money(0)
-                        .createdBy(userTravel.getCreatedBy())
-                        .createdAt(userTravel.getCreatedAt())
-                        .updatedBy(userTravel.getUpdatedBy())
-                        .updatedAt(userTravel.getUpdatedAt())
-                        .build();
-                borrowMoneyList.add(borrowMoney);
-        });
-        return borrowMoneyList;
-    }
+    // TODO:不要処理のため　後ほど削除
+//    private void addBorrowRelation(UserTravel userTravel, List<User> users){
+//        users.forEach(user -> {
+//            if(user.getId().equals(userTravel.getUserId())) return;
+//            BorrowMoneyEntity addBorrowMoney = new BorrowMoneyEntity();
+//            addBorrowMoney = addBorrowMoney.builder()
+//                    .travelId(userTravel.getTravelId())
+//                    .borrowerId(user.getId())
+//                    .lenderId(userTravel.getUserId())
+//                    .money(0)
+//                    .createdBy(userTravel.getCreatedBy())
+//                    .createdAt(userTravel.getCreatedAt())
+//                    .updatedBy(userTravel.getUpdatedBy())
+//                    .updatedAt(userTravel.getUpdatedAt())
+//                    .build();
+//            this.borrowMoneyRepository.createBorrowRelation(addBorrowMoney);
+//        });
+//    }
+//        // TODO:不要処理のため　後ほど削除
+//    private List<BorrowMoneyEntity> createBorrowRelationList(UserTravel userTravel , List<User> users){
+//        List<BorrowMoneyEntity> borrowMoneyList = new ArrayList<>();
+//        users.forEach(user -> {
+//                BorrowMoneyEntity borrowMoney = new BorrowMoneyEntity();
+//                borrowMoney = borrowMoney.builder()
+//                        .travelId(userTravel.getTravelId())
+//                        .borrowerId(userTravel.getUserId())
+//                        .lenderId(user.getId())
+//                        .money(0)
+//                        .createdBy(userTravel.getCreatedBy())
+//                        .createdAt(userTravel.getCreatedAt())
+//                        .updatedBy(userTravel.getUpdatedBy())
+//                        .updatedAt(userTravel.getUpdatedAt())
+//                        .build();
+//                borrowMoneyList.add(borrowMoney);
+//        });
+//        return borrowMoneyList;
+//    }
 }

@@ -13,13 +13,11 @@ public class BorrowMoneyEntity {
 
     private Integer id;
 
-    private Integer travelId;
+    private Integer paymentId;
 
     private Integer borrowerId;
 
-    private Integer lenderId;
-
-    private Integer money;
+    private Double money;
 
     private Integer createdBy;
 
