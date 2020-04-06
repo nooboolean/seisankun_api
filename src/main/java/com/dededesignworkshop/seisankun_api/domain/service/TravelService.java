@@ -1,10 +1,6 @@
 package com.dededesignworkshop.seisankun_api.domain.service;
 
-import com.dededesignworkshop.seisankun_api.domain.object.Travel;
-import com.dededesignworkshop.seisankun_api.domain.object.TravelList;
-import com.dededesignworkshop.seisankun_api.domain.object.User;
-import com.dededesignworkshop.seisankun_api.domain.object.UserTravel;
-import com.dededesignworkshop.seisankun_api.infrastructure.entity.BorrowMoneyEntity;
+import com.dededesignworkshop.seisankun_api.domain.object.*;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.TravelEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.UserEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.BorrowMoneyRepository;
@@ -16,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -32,12 +29,6 @@ public class TravelService {
 
     @NotNull
     private final UserRepository userRepository;
-
-    @NotNull
-    private final UserService userService;
-
-    @NotNull
-    private final BorrowMoneyRepository borrowMoneyRepository;
 
     public List<TravelList> findByUserId(Integer user_id) {
         Stream<Travel> travels = this.travelRepository.findByUserId(user_id).stream().map(TravelEntity::toDomainTravelList);
@@ -98,14 +89,6 @@ public class TravelService {
         userTravel.setUpdatedAt(now_date);
         userTravel.setUpdatedBy(userTravel.getCreatedBy());
         this.userTravelRepository.createUserTravel(userTravel);
-
-        // TODO:不要処理のため　後ほど削除
-//        List<User> users = this.userService.findByTravelId(userTravel.getTravelId());
-//        this.addBorrowRelation(userTravel, users);
-//        List<BorrowMoneyEntity> borrowMoneyList = this.createBorrowRelationList(userTravel, users);
-//        borrowMoneyList.forEach(borrowMoneyEntity -> {
-//            this.borrowMoneyRepository.createBorrowRelation(borrowMoneyEntity);
-//        });
     }
 
     public void deleteUserTravel(UserTravel userTravel) {
@@ -122,41 +105,21 @@ public class TravelService {
         return this.travelRepository.getTravelId(hash_id);
     }
 
-    // TODO:不要処理のため　後ほど削除
-//    private void addBorrowRelation(UserTravel userTravel, List<User> users){
-//        users.forEach(user -> {
-//            if(user.getId().equals(userTravel.getUserId())) return;
-//            BorrowMoneyEntity addBorrowMoney = new BorrowMoneyEntity();
-//            addBorrowMoney = addBorrowMoney.builder()
-//                    .travelId(userTravel.getTravelId())
-//                    .borrowerId(user.getId())
-//                    .lenderId(userTravel.getUserId())
-//                    .money(0)
-//                    .createdBy(userTravel.getCreatedBy())
-//                    .createdAt(userTravel.getCreatedAt())
-//                    .updatedBy(userTravel.getUpdatedBy())
-//                    .updatedAt(userTravel.getUpdatedAt())
-//                    .build();
-//            this.borrowMoneyRepository.createBorrowRelation(addBorrowMoney);
-//        });
-//    }
-//        // TODO:不要処理のため　後ほど削除
-//    private List<BorrowMoneyEntity> createBorrowRelationList(UserTravel userTravel , List<User> users){
-//        List<BorrowMoneyEntity> borrowMoneyList = new ArrayList<>();
-//        users.forEach(user -> {
-//                BorrowMoneyEntity borrowMoney = new BorrowMoneyEntity();
-//                borrowMoney = borrowMoney.builder()
-//                        .travelId(userTravel.getTravelId())
-//                        .borrowerId(userTravel.getUserId())
-//                        .lenderId(user.getId())
-//                        .money(0)
-//                        .createdBy(userTravel.getCreatedBy())
-//                        .createdAt(userTravel.getCreatedAt())
-//                        .updatedBy(userTravel.getUpdatedBy())
-//                        .updatedAt(userTravel.getUpdatedAt())
-//                        .build();
-//                borrowMoneyList.add(borrowMoney);
-//        });
-//        return borrowMoneyList;
-//    }
+    public UserTravel existTravel(String hashId, String uid) {
+        Integer travelId = this.travelRepository.getTravelId(hashId);
+        Optional<User> user = this.userRepository.findByUid(uid).map(UserEntity::toDomainUser);
+        Integer userId = user.get().getId();
+        return this.userTravelRepository.findByUserIdAndTravelId(userId, travelId);
+    }
+
+    public void joinTravelByHashId(UserTravelByHashId userTravelByHashId) {
+        Integer travelId = this.travelRepository.getTravelId(userTravelByHashId.getTravelHashId());
+        Optional<User> user = this.userRepository.findByUid(userTravelByHashId.getUserUid()).map(UserEntity::toDomainUser);
+        UserTravel userTravel = UserTravel.builder()
+                .travelId(travelId)
+                .userId(user.get().getId())
+                .createdBy(user.get().getCreatedBy())
+                .build();
+        this.joinTravel(userTravel);
+    }
 }

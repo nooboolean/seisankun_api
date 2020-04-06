@@ -4,6 +4,7 @@ package com.dededesignworkshop.seisankun_api.application.controller;
 import com.dededesignworkshop.seisankun_api.domain.object.Travel;
 import com.dededesignworkshop.seisankun_api.domain.object.TravelList;
 import com.dededesignworkshop.seisankun_api.domain.object.UserTravel;
+import com.dededesignworkshop.seisankun_api.domain.object.UserTravelByHashId;
 import com.dededesignworkshop.seisankun_api.domain.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -93,5 +94,21 @@ public class TravelController {
     public Integer getTravelId(@PathVariable("hash_id") String hash_id){
         Integer travel_id = this.travelService.getTravelId(hash_id);
         return travel_id;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/v1/travel/{hash_id}/exist/member/{user_uid}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserTravel existTravel(@PathVariable("hash_id") String hashId, @PathVariable("user_uid") String uid){
+        return this.travelService.existTravel(hashId, uid);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/v1/travel/join/hashId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void joinTravelByHashId(@RequestBody UserTravelByHashId userTravelByHashId, BindingResult result){
+        this.travelService.joinTravelByHashId(userTravelByHashId);
     }
 }
