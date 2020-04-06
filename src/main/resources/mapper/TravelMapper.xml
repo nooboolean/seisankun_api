@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dededesignworkshop.seisankun_api.infrastructure.repository.TravelRepository">
+    <select id="findByUserId" resultType="com.dededesignworkshop.seisankun_api.infrastructure.entity.TravelEntity">
+        SELECT
+            t.*
+        FROM
+            travels t
+        INNER JOIN
+            user_travel ut
+        ON
+            t.id = ut.travel_id
+        WHERE
+            ut.user_id = #{user_id}
+        ORDER BY
+            t.travel_start
+    </select>
+    <update id="updateTravel">
+        UPDATE
+            travels
+        SET
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="travelStart != null">
+                travel_start = #{travelStart},
+            </if>
+            <if test="travelEnd != null">
+                travel_end = #{travelEnd},
+            </if>
+            updated_by = #{updatedBy},
+            updated_at = #{updatedAt}
+        WHERE
+            id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dededesignworkshop.seisankun_api.infrastructure.repository.UserRepository">
+    <select id="findByTravelId" resultType="com.dededesignworkshop.seisankun_api.infrastructure.entity.UserEntity">
+        SELECT
+            u.*
+        FROM
+            users u
+        INNER JOIN
+            user_travel ut
+            ON
+            u.id = ut.user_id
+        WHERE
+            ut.travel_id = #{travel_id}
+        AND
+        (
+              ut.delete_flag = 0
+              OR ut.delete_flag IS NULL
+        )
+        ORDER BY
+            ut.created_at
+    </select>
+</mapper>
