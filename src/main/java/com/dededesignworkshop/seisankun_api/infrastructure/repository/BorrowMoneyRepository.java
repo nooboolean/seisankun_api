@@ -14,8 +14,11 @@ public interface BorrowMoneyRepository {
             "VALUES (#{paymentId}, #{borrowerId}, #{money}, #{createdBy}, #{createdAt}, #{updatedBy}, #{updatedAt})")
     void createBorrowRelation(BorrowMoneyEntity borrowMoneyEntity);
 
-    @Select("SELECT * FROM borrow_money WHERE payment_id = #{paymentId}")
+    @Select("SELECT * FROM borrow_money WHERE payment_id = #{paymentId} AND (delete_flag = 0 OR delete_flag IS NULL)")
     List<BorrowMoneyEntity> findByPaymentId(@Param("paymentId") Integer paymentId);
+
+    @Select("SELECT * FROM borrow_money WHERE borrower_id = #{borrowerId} AND (delete_flag = 0 OR delete_flag IS NULL)")
+    List<BorrowMoneyEntity> findByBorrowerId(@Param("borrowerId") Integer borrowerId);
 
     @Update("UPDATE borrow_money SET money = #{money}, updated_by = #{updatedBy}, updated_at = #{updatedAt}" +
             "WHERE id = #{id}")

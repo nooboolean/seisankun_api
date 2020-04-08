@@ -1,5 +1,6 @@
 package com.dededesignworkshop.seisankun_api.application.controller;
 
+import com.dededesignworkshop.seisankun_api.domain.object.BorrowHistory;
 import com.dededesignworkshop.seisankun_api.domain.object.Payment;
 import com.dededesignworkshop.seisankun_api.domain.object.PaymentHistory;
 import com.dededesignworkshop.seisankun_api.domain.object.User;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -81,5 +81,13 @@ public class PaymentController {
 	public List<BorrowMoneyEntity> findBorrowMoneyByTravelId(@PathVariable("travel_id") Integer travel_id){
     	return this.paymentService.findBorrowMoneyByTravelId(travel_id);
 	}
+
+	@CrossOrigin
+    @RequestMapping(value = "/v1/borrow_history/show/{borrower_id}/{travel_hash_id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<BorrowHistory> findBorrowHistoryByBorrowerId(@PathVariable("borrower_id") Integer borrowerId, @PathVariable("travel_hash_id") String travelHashId){
+        return this.paymentService.findBorrowHistoryByBorrowerIdAndTravelHashId(borrowerId, travelHashId);
+    }
 
 }

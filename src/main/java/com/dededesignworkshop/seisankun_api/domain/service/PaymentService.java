@@ -1,5 +1,6 @@
 package com.dededesignworkshop.seisankun_api.domain.service;
 
+import com.dededesignworkshop.seisankun_api.domain.object.BorrowHistory;
 import com.dededesignworkshop.seisankun_api.domain.object.Payment;
 import com.dededesignworkshop.seisankun_api.domain.object.PaymentHistory;
 import com.dededesignworkshop.seisankun_api.domain.object.User;
@@ -8,18 +9,17 @@ import com.dededesignworkshop.seisankun_api.infrastructure.entity.PaymentEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.UserEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.BorrowMoneyRepository;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.PaymentRepository;
+import com.dededesignworkshop.seisankun_api.infrastructure.repository.TravelRepository;
 import com.dededesignworkshop.seisankun_api.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -33,6 +33,9 @@ public class PaymentService {
 
     @NotNull
     private final BorrowMoneyRepository borrowMoneyRepository;
+
+    @NotNull
+    private final TravelRepository travelRepository;
 
     public List<PaymentHistory> findByTravelId(Integer travel_id) {
         Stream<Payment> payments = this.paymentRepository.findByTravelId(travel_id).stream().map(PaymentEntity::toDomainPayment);
@@ -127,5 +130,30 @@ public class PaymentService {
 		});
 		return borrowMoneyEntities;
 	}
+
+	public List<BorrowHistory> findBorrowHistoryByBorrowerIdAndTravelHashId(Integer borrowerId, String travelHashId) {
+        List<BorrowMoneyEntity> borrowMoneyEntityList = this.borrowMoneyRepository.findByBorrowerId(borrowerId);
+        Optional<User> user = this.userRepository.findByUserId(borrowerId).map(UserEntity::toDomainUser);
+        Integer travelId = this.travelRepository.getTravelId(travelHashId);
+        List<BorrowHistory> borrowHistoryList = new ArrayList<>();
+        borrowMoneyEntityList.forEach(bme -> {
+            Optional<Payment> payment = this.paymentRepository.findByPaymentId(bme.getPaymentId()).map(PaymentEntity::toDomainPayment);
+            BorrowHistory borrowHistory = BorrowHistory.builder()
+                    .userName(user.get().getName())
+                    .paymentTitle(payment.get().getTitle())
+                    .build();
+            Double borrowMoney;
+            if(payment.get().getPayerId() == bme.getBorrowerId()){
+                borrowMoney = payment.get().getAmount() - bme.getMoney();
+            } else {
+                borrowMoney = bme.getMoney() * -1;
+            }
+            borrowHistory.setBorrowMoney(borrowMoney);
+            if (payment.get().getTravelId() == travelId) {
+                borrowHistoryList.add(borrowHistory);
+            }
+        });
+        return borrowHistoryList;
+    }
 
 }
