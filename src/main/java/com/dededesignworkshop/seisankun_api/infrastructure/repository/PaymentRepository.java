@@ -25,4 +25,7 @@ public interface PaymentRepository {
     @Update("UPDATE payments SET updated_by = #{updatedBy}, updated_at = #{updatedAt}, deleted_by = #{updatedBy}, deleted_at = #{deletedAt}," +
             "delete_flag = 1 WHERE id = #{id}")
     void softDeletePayment(Payment payment);
+
+    @Delete("DELETE FROM payments WHERE travel_id = #{travelId}")
+    void deletePaymentsByTravelId(Integer travelId);
 }

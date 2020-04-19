@@ -13,6 +13,9 @@ public interface UserTravelRepository {
     @Delete("DELETE FROM user_travel WHERE user_id = #{userId} AND travel_id = #{travelId}")
     void deleteUserTravel(UserTravel userTravel);
 
+    @Delete("DELETE FROM user_travel WHERE travel_id = #{travelId}")
+    void deleteUserTravelByTravelId(Integer travelId);
+
     @Select("SELECT * from user_travel WHERE user_id = #{userId} AND travel_id = #{travelId} AND (delete_flag = 0 OR delete_flag IS NULL)")
     UserTravel findByUserIdAndTravelId(Integer userId, Integer travelId);
 

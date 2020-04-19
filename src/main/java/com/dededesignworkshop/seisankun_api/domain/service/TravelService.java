@@ -1,18 +1,15 @@
 package com.dededesignworkshop.seisankun_api.domain.service;
 
 import com.dededesignworkshop.seisankun_api.domain.object.*;
+import com.dededesignworkshop.seisankun_api.infrastructure.entity.PaymentEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.TravelEntity;
 import com.dededesignworkshop.seisankun_api.infrastructure.entity.UserEntity;
-import com.dededesignworkshop.seisankun_api.infrastructure.repository.BorrowMoneyRepository;
-import com.dededesignworkshop.seisankun_api.infrastructure.repository.TravelRepository;
-import com.dededesignworkshop.seisankun_api.infrastructure.repository.UserRepository;
-import com.dededesignworkshop.seisankun_api.infrastructure.repository.UserTravelRepository;
+import com.dededesignworkshop.seisankun_api.infrastructure.repository.*;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,6 +26,12 @@ public class TravelService {
 
     @NotNull
     private final UserRepository userRepository;
+
+    @NotNull
+    private final BorrowMoneyRepository borrowMoneyRepository;
+
+    @NotNull
+    private final PaymentRepository paymentRepository;
 
     public List<TravelList> findByUserId(Integer user_id) {
         Stream<Travel> travels = this.travelRepository.findByUserId(user_id).stream().map(TravelEntity::toDomainTravelList);
@@ -79,6 +82,14 @@ public class TravelService {
 
     public void deleteTravel(Integer travelId){
         this.travelRepository.deleteTravel(travelId);
+        this.userTravelRepository.deleteUserTravelByTravelId(travelId);
+        this.paymentRepository.deletePaymentsByTravelId(travelId);
+//        Stream<Payment> payments = this.paymentRepository.findByTravelId(travelId).stream().map(PaymentEntity::toDomainPayment);
+//        System.out.println(payments);
+//        payments.forEach(payment -> {
+//            System.out.println(payment.getId());
+//            this.borrowMoneyRepository.deleteBorrowRelation(payment.getId());
+//        });
     }
 
     public void joinTravel(UserTravel userTravel){
