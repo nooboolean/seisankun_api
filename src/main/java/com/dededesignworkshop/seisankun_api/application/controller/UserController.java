@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +18,6 @@ public class UserController {
     @NotNull
     final private UserService userService;
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/user/info/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -28,7 +26,6 @@ public class UserController {
         return user;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/user/info/{uid}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -36,7 +33,6 @@ public class UserController {
         return this.userService.findByUid(uid);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/traveler/{travel_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

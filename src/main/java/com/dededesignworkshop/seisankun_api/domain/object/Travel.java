@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -16,12 +18,16 @@ public class Travel implements Serializable {
 
     private Integer id;
 
+    @NotBlank(message = "nameは必須です")
+    @Size(max = 20, message = "nameは20文字以内で入力してください")
     private String name;
 
     private String hashId;
 
+    @NotNull(message = "travelStartは必須です")
     private String travelStart;
 
+    @NotNull(message = "travelEndは必須です")
     private String travelEnd;
 
     private Integer createdBy;

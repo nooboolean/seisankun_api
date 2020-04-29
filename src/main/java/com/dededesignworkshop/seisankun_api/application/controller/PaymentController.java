@@ -23,7 +23,6 @@ public class PaymentController {
     @NotNull
     private final PaymentService paymentService;
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/payment/history/{travel_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -31,7 +30,6 @@ public class PaymentController {
         return this.paymentService.findByTravelId(travel_id);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/payment/info/{payment_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -39,7 +37,6 @@ public class PaymentController {
         return this.paymentService.findByPaymentId(payment_id);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/payment/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -48,7 +45,6 @@ public class PaymentController {
         return payment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "v1/payment/data/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -57,7 +53,6 @@ public class PaymentController {
         return updatedPayment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "v1/payment/data/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -66,7 +61,6 @@ public class PaymentController {
         return payment.getId();
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/borrower/{payment_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -74,7 +68,6 @@ public class PaymentController {
         return this.paymentService.findBorrowerByPaymentId(payment_id);
     }
 
-    @CrossOrigin
 	@RequestMapping(value = "/v1/borrow_money/{travel_id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -82,7 +75,6 @@ public class PaymentController {
     	return this.paymentService.findBorrowMoneyByTravelId(travel_id);
 	}
 
-	@CrossOrigin
     @RequestMapping(value = "/v1/borrow_history/show/{borrower_id}/{travel_hash_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

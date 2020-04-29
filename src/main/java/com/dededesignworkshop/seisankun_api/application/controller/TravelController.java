@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +23,6 @@ public class TravelController {
     @NotNull
     private final TravelService travelService;
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/list/{user_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -31,7 +30,6 @@ public class TravelController {
         return this.travelService.findByUserId(user_id);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/info/{travel_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -39,25 +37,22 @@ public class TravelController {
         return this.travelService.findByTravelId(travel_id);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Travel createTravel(@RequestBody Travel travel, BindingResult result){
+    public Travel createTravel(@RequestBody @Validated Travel travel, BindingResult result){
         this.travelService.createTravel(travel);
         return travel;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/info/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Optional<Travel> updateTravel(@RequestBody Travel travel, BindingResult result){
+    public Optional<Travel> updateTravel(@RequestBody @Validated Travel travel, BindingResult result){
         Optional<Travel> updatedTravel = this.travelService.updateTravel(travel);
         return updatedTravel;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "v1/travel/delete/{archive_flag}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -70,7 +65,6 @@ public class TravelController {
         return travel.getId();
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/join", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -78,7 +72,6 @@ public class TravelController {
         this.travelService.joinTravel(userTravel);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/secession", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -87,7 +80,6 @@ public class TravelController {
         return userTravel;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/id/{hash_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -96,7 +88,6 @@ public class TravelController {
         return travel_id;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/{hash_id}/exist/member/{user_uid}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -104,7 +95,6 @@ public class TravelController {
         return this.travelService.existTravel(hashId, uid);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/v1/travel/join/hashId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
