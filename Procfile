@@ -1,1 +1,1 @@
-web: java -jar build/libs/spring-boot-sample-0.1.0.jar --server.port=$PORT
+web: java -jar build/libs/seisankun_api-0.0.1-SNAPSHOT.jar --server.port=$PORT
