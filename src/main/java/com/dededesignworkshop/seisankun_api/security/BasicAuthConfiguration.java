@@ -42,7 +42,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
      */
     private CorsConfigurationSource getCorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "https://hardcore-stonebraker-4173b6.netlify.app/", "https://seisan-kun.netlify.app"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "https://hardcore-stonebraker-4173b6.netlify.app", "https://seisan-kun.netlify.app"));
         configuration.setAllowedHeaders(Arrays.asList(CorsConfiguration.ALL));
         configuration.setAllowedMethods(Arrays.asList(CorsConfiguration.ALL));
         configuration.setAllowCredentials(true);
