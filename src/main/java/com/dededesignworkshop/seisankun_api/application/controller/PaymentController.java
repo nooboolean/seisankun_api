@@ -45,7 +45,7 @@ public class PaymentController {
         return payment;
     }
 
-    @RequestMapping(value = "v1/payment/data/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/v1/payment/data/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Optional<Payment> updatePayment(@RequestBody Payment payment, BindingResult result){
@@ -53,7 +53,7 @@ public class PaymentController {
         return updatedPayment;
     }
 
-    @RequestMapping(value = "v1/payment/data/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/v1/payment/data/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Integer deleteTravel(@RequestBody Payment payment, BindingResult result){

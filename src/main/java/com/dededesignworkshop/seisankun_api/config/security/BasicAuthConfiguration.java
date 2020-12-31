@@ -1,4 +1,4 @@
-package com.dededesignworkshop.seisankun_api.security;
+package com.dededesignworkshop.seisankun_api.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
